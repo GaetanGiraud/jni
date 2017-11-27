@@ -1,7 +1,5 @@
-import com.ggiraud.benchmark.MatrixCalculation;
 import com.ggiraud.benchmark.MatrixCalculationJava;
 import com.ggiraud.benchmark.MatrixCalculationNative;
-import com.ggiraud.benchmark.MatrixGenerator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -22,7 +20,7 @@ public class Tests {
     public void testSerialization(){
         int[][] matrix = { {1 , 2 } , { 3, 4} };
         int[] expectedArray = {1 , 2, 3, 4};
-        int[] matrixArray = MatrixGenerator.serializeMatrix(matrix);
+        int[] matrixArray = MatrixCalculationNative.serializeMatrix(matrix);
 
         assertArrayEquals(expectedArray ,matrixArray);
 
@@ -34,7 +32,7 @@ public class Tests {
 
         int[] array = {1 , 2, 3, 4};
         int[][] expectedMatrix = { {1 , 2 } , { 3, 4} };
-        int[][] matrix = MatrixGenerator.deSerializeMatrix(array, 2);
+        int[][] matrix = MatrixCalculationNative.deSerializeMatrix(array, 2);
 
         assertArrayEquals(expectedMatrix ,matrix);
     }

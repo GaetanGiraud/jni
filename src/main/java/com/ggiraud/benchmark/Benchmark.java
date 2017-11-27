@@ -17,29 +17,33 @@ public class Benchmark {
 
         List<BenchmarkResult> results = new ArrayList<>();
 
-       // perform the benchmark on a exponentially increasing scale
+        // perform benchmark for Java
+        for(int i = 1; i < 20; i++ ) results.add(performBenchmarkStep(i*10, new MatrixCalculationJava()));
 
+        writeResultsToFile(results, "benchmark-java-results.csv");
 
+        // perform benchmark for Native
+        for(int i = 1; i < 20; i++ ) results.add(performBenchmarkStep(i*10, new MatrixCalculationNative()));
 
-        /*for(int i = 1; i < 13; i++ )
+        writeResultsToFile(results, "benchmark-native-results.csv");
+    }
 
-        results.add(performBenchmarkStep((int) Math.pow(2, i)));
-
+    private static void writeResultsToFile(List<BenchmarkResult> results, String fileName) {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                new FileOutputStream("benchmark-results.csv"), "utf-8"))) {
+                new FileOutputStream(fileName), "utf-8"))) {
 
-            for(BenchmarkResult  result: results)
-                writer.write(result.toString());
+            for(BenchmarkResult result: results) writer.write(result.toString());
 
 
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
-
+        }
     }
 
     public static BenchmarkResult performBenchmarkStep(int n, MatrixCalculation calculation){
-        int[][] matrix1 = MatrixGenerator.generateRandomMatrix(n);
+        MatrixGenerator generator = new MatrixGenerator(12345678l);
+
+        int[][] matrix1 = generator.generateRandomMatrix(n);
 
         System.out.print("Performing calculations for n = " + n);
         long startTime = System.nanoTime();
